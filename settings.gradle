@@ -1,0 +1,6 @@
+include ':app'
+include ':core'
+include ':comp1'
+include ':comp2'
+include ':single-alone:comp1-alone'
+
