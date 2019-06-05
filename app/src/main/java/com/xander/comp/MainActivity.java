@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         openModule1();
       }
     });
+
   }
 
   private void openModule1() {
