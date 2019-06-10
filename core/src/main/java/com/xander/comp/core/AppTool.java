@@ -4,10 +4,13 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.Log;
-import com.xander.comp.core.application.XApplication;
-import com.xander.comp.core.services.IAppServices;
-import com.xander.comp.core.services.IComp1Services;
-import com.xander.comp.core.services.IComp2Services;
+import com.xander.comp.core.application.CompApplication;
+import com.xander.comp.core.services.ICompService;
+import com.xander.comp.core.services.IComp1Service;
+import com.xander.comp.core.services.IComp2Service;
+import com.xander.comp.core.services.SimpleComp1Service;
+import com.xander.comp.core.services.SimpleComp2Service;
+import com.xander.comp.core.services.SimpleServiceFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,89 +26,94 @@ public class AppTool {
 
   private static Application app;
 
-  private static ArrayList<Class> iAppServicesList = new ArrayList<>();
+  private static ArrayList<Class> compServiceClassList = new ArrayList<>();
 
-  private static HashMap<Class, IAppServices> appServicesMap = new HashMap<>();
+  private static HashMap<Class, ICompService> compServiceMap = new HashMap<>();
 
-  private static ArrayList<XApplication> xApplicationList = new ArrayList<>();
+  private static ArrayList<CompApplication> compApplicationList = new ArrayList<>();
 
   static {
-    iAppServicesList.add(IComp1Services.class);
-    iAppServicesList.add(IComp2Services.class);
+    compServiceClassList.add(IComp1Service.class);
+    compServiceClassList.add(IComp2Service.class);
+    // 后续可以通过注解的方式来解决这个绑定的问题
+    SimpleServiceFactory.register(IComp1Service.class, SimpleComp1Service.class);
+    SimpleServiceFactory.register(IComp2Service.class, SimpleComp2Service.class);
   }
 
   public static void init() {
-    //initApp();
-    if (!xApplicationList.isEmpty()) {
+    if (!compApplicationList.isEmpty()) {
+      Log.e(TAG, "init: ", new IllegalStateException("can not call init more than one time!!!"));
       return;
     }
-    xApplicationList.clear();
     initServices();
-    Log.d(TAG, String.valueOf(iAppServicesList));
-    Log.d(TAG, String.valueOf(xApplicationList));
+    Log.d(TAG, "init: compServiceClassList:" + compServiceClassList);
+    Log.d(TAG, "init: compApplicationList:" + compApplicationList);
   }
 
   private static void initServices() {
-    for (Class<IAppServices> zlass : iAppServicesList) {
-      IAppServices services = loadServices(zlass);
-      appServicesMap.put(zlass, services);
-      initApplication(services);
+    for (Class<ICompService> klass : compServiceClassList) {
+      ICompService compService = loadService(klass);
+      if (null == compService) {
+        compService = SimpleServiceFactory.createSimpleService(klass);
+      }
+      if (null == compService) {
+        continue;
+      }
+      compServiceMap.put(klass, compService);
+      loadCompApplication(compService);
     }
   }
 
-  private static void initApplication(IAppServices services) {
+  private static void loadCompApplication(ICompService services) {
     if (null != services && null != services.getApplication()) {
-      xApplicationList.add(services.getApplication());
+      compApplicationList.add(services.getApplication());
     }
   }
 
-  private static <SERVICES> SERVICES loadServices(Class<SERVICES> servicesClass) {
-    SERVICES services = null;
-    ServiceLoader<SERVICES> serviceLoader = ServiceLoader.load(servicesClass);
+  private static ICompService loadService(Class<ICompService> serviceClass) {
+    Log.d(TAG, "loadService: " + serviceClass);
+    ICompService compService = null;
+    ServiceLoader<ICompService> serviceLoader = ServiceLoader.load(serviceClass);
     serviceLoader.reload();
-    Iterator<SERVICES> iterator = serviceLoader.iterator();
+    Iterator<ICompService> iterator = serviceLoader.iterator();
     while (iterator.hasNext()) {
-      services = iterator.next();
+      compService = iterator.next();
     }
-    return services;
+    return compService;
   }
 
   static {
     init();
   }
 
-  public static Application getApp() {
+  public static Application Application() {
     return app;
   }
 
-  public static <SERVICES extends IAppServices> SERVICES getAppServices(
-      Class<SERVICES> servicesClass) {
-    IAppServices services = appServicesMap.get(servicesClass);
-    if (null != services) {
-      return (SERVICES) services;
+  public static<SERVICE extends ICompService> SERVICE getAppService(Class<SERVICE> serviceClass) {
+    Log.d(TAG, "getAppService: " + serviceClass);
+    return (SERVICE)compServiceMap.get(serviceClass);
+  }
+
+  public static IComp1Service getComp1Service() {
+    ICompService compService = compServiceMap.get(IComp1Service.class);
+    if (null != compService && compService instanceof IComp1Service) {
+      return (IComp1Service) compService;
     }
     return null;
   }
 
-  public static IComp1Services getComp1Service() {
-    IAppServices services = appServicesMap.get(IComp1Services.class);
-    if (null != services) {
-      return (IComp1Services) services;
-    }
-    return null;
-  }
-
-  public static IComp2Services getComp2Service() {
-    IAppServices services = appServicesMap.get(IComp2Services.class);
-    if (null != services && services instanceof IComp2Services) {
-      return (IComp2Services) services;
+  public static IComp2Service getComp2Service() {
+    ICompService compService = compServiceMap.get(IComp2Service.class);
+    if (null != compService && compService instanceof IComp2Service) {
+      return (IComp2Service) compService;
     }
     return null;
   }
 
   public static void appAttachBaseApplication(Context context, Application application) {
     app = application;
-    for (XApplication app : xApplicationList) {
+    for (CompApplication app : compApplicationList) {
       if (null != app) {
         app.onAttachBaseApplication(context);
       }
@@ -113,7 +121,7 @@ public class AppTool {
   }
 
   public static void appCreate() {
-    for (XApplication app : xApplicationList) {
+    for (CompApplication app : compApplicationList) {
       if (null != app) {
         app.onCreate();
       }
@@ -121,7 +129,7 @@ public class AppTool {
   }
 
   public static void appTerminate() {
-    for (XApplication app : xApplicationList) {
+    for (CompApplication app : compApplicationList) {
       if (null != app) {
         app.onTerminate();
       }
@@ -129,7 +137,7 @@ public class AppTool {
   }
 
   public static void appConfigurationChanged(Configuration newConfig) {
-    for (XApplication app : xApplicationList) {
+    for (CompApplication app : compApplicationList) {
       if (null != app) {
         app.onConfigurationChanged(newConfig);
       }
@@ -137,7 +145,7 @@ public class AppTool {
   }
 
   public static void appLowMemory() {
-    for (XApplication app : xApplicationList) {
+    for (CompApplication app : compApplicationList) {
       if (null != app) {
         app.onLowMemory();
       }
@@ -145,7 +153,7 @@ public class AppTool {
   }
 
   public static void appTrimMemory(int level) {
-    for (XApplication app : xApplicationList) {
+    for (CompApplication app : compApplicationList) {
       if (null != app) {
         app.onTrimMemory(level);
       }

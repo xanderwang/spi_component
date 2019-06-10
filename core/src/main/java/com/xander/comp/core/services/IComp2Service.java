@@ -6,7 +6,7 @@ import android.content.Context;
  * author: Xander
  * date: 2019/4/12
  */
-public interface IComp1Services extends IAppServices {
+public interface IComp2Service extends ICompService {
 
-  void openModule1(Context context);
+    void openComp2(Context context);
 }

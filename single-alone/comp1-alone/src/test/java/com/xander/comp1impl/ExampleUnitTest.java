@@ -1,4 +1,4 @@
-package com.xander.module1;
+package com.xander.comp1impl;
 
 import org.junit.Test;
 

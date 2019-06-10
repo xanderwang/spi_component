@@ -1,16 +1,16 @@
 package com.xander.comp.core.services;
 
-import com.xander.comp.core.application.XApplication;
+import com.xander.comp.core.application.CompApplication;
 
 /**
  * author: Xander
  * date: 2019/4/12
  */
-public interface IAppServices {
+public interface ICompService {
 
   /**
    * 获取
    * @return
    */
-  XApplication getApplication();
+  CompApplication getApplication();
 }

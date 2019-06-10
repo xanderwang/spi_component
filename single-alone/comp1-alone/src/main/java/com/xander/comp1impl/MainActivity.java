@@ -1,4 +1,4 @@
-package com.xander.module1;
+package com.xander.comp1impl;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

@@ -10,11 +10,11 @@
   android:clipToPadding="false"
   >
 
-  <TextView
+  <Button
     android:id="@+id/textView2"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="module 1 app enter"
+    android:text="I am comp 1"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"

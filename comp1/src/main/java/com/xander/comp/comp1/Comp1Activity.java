@@ -12,7 +12,7 @@ public class Comp1Activity extends AppCompatActivity {
     setContentView(R.layout.activity_comp1);
   }
 
-  public void openModule2(View view) {
-    AppTool.getComp2Service().openModule2(this);
+  public void openComp2(View view) {
+    AppTool.getComp2Service().openComp2(this);
   }
 }

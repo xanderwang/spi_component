@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.xander.comp.core.AppTool;
-import com.xander.comp.core.services.IComp1Services;
+import com.xander.comp.core.services.IComp1Service;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,13 +25,13 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
             .setAction("Action", null)
             .show();
-        openModule1(null);
+        openComp1(null);
       }
     });
   }
 
-  public void openModule1(View view) {
-    AppTool.getAppServices(IComp1Services.class).openModule1(this);
+  public void openComp1(View view) {
+    AppTool.getAppService(IComp1Service.class).openComp1(this);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {

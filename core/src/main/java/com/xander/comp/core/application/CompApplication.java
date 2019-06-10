@@ -9,7 +9,7 @@ import com.xander.comp.core.AppTool;
  * author: Xander
  * date: 2019/4/12
  */
-public class XApplication {
+public class CompApplication {
 
   public void onAttachBaseApplication(Context context) {
 
@@ -37,11 +37,11 @@ public class XApplication {
 
   public void registerActivityLifecycleCallbacks(
       Application.ActivityLifecycleCallbacks callback) {
-    AppTool.getApp().registerActivityLifecycleCallbacks(callback);
+    AppTool.Application().registerActivityLifecycleCallbacks(callback);
   }
 
   public void unregisterActivityLifecycleCallbacks(
       Application.ActivityLifecycleCallbacks callback) {
-    AppTool.getApp().unregisterActivityLifecycleCallbacks(callback);
+    AppTool.Application().unregisterActivityLifecycleCallbacks(callback);
   }
 }
