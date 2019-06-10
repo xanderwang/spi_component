@@ -19,6 +19,6 @@ import static org.junit.Assert.*;
     // Context of the app under test.
     Context appContext = InstrumentationRegistry.getTargetContext();
 
-    assertEquals("com.xander.spi.commom.test", appContext.getPackageName());
+    assertEquals("com.xander.comp.core.test", appContext.getPackageName());
   }
 }
