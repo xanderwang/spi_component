@@ -1,19 +1,18 @@
 package com.xander.comp.comp1;
 
-import android.content.Context;
-import com.xander.comp.core.application.ICopm1Application;
+import android.util.Log;
+import com.xander.comp.core.application.XApplication;
 
 /**
  * author: Xander
  * date: 2019/4/12
  */
-public class Copm1Application implements ICopm1Application {
+public class Copm1Application extends XApplication {
 
-  @Override public void attachBaseApplication(Context context) {
-    //application = context.getApplicationContext();
-  }
+  private static final String TAG = "Copm1Application";
 
-  @Override public void create() {
-
+  @Override public void onCreate() {
+    super.onCreate();
+    Log.d(TAG, "onCreate ");
   }
 }

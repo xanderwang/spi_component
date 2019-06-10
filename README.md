@@ -70,4 +70,28 @@ single-alone/compx-alone 某个组件的 app ，即依赖 core 和某个 comp �
 
 ## 组件是如何工作的
 
-首先，组件是如何被识别的呢？
+首先，一个组件需要在 core 模块里面定义，我们暂用 ICompXServices 来表示，其实就是
+一个接口，定义了这个组件对外暴露的东西，比如可以获取某个值(getXXX)，
+可以获取一个 Fragment (getXXXFragment)。
+
+然后，我们需要新建一个 compX 模块，依赖 core 模块，然后实现 ICompXServices ，
+我们记为 CompXServicesImpl ，这样我们就有了一个组件。
+
+然后，在 core 模块的 AppTool 类里面定义一个 ICompXServices ，这样我们就有了一个组件，
+当 AppTool 类被加载的时候，通过 SPI ，我们就可以把 compX 里面实现的 
+CompXServicesImpl 和刚刚定义的 ICompXServices 绑定起来。( SPI 的原理大家可以参考
+[Java SPI机制原理和使用场景](https://blog.csdn.net/codingtu/article/details/79004657))
+
+然后 app 模块都依赖 core 和 compX 模块，所有通过 AppTool 类，我们可以就可以使用 
+CompXServicesImpl 了。
+
+组件的原理大概就是这样的。
+
+
+## 疑难点是如何解决的
+
+### 1
+
+### 2
+
+### 3

@@ -13,6 +13,6 @@ public class Comp1Activity extends AppCompatActivity {
   }
 
   public void openModule2(View view) {
-    AppTool.module2Services.openModule2(this);
+    AppTool.getComp2Service().openModule2(this);
   }
 }
