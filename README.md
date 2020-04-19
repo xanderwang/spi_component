@@ -90,7 +90,7 @@
 然后 `:apps:app` 模块都依赖 `:baselibs:core` 和 `:components:compXImpl` 模块，然后通过 `AppTool` 类，我们可以就可以使用 `CompXServiceImpl` 了。
 
 组件的原理大概就是这样的。
-![架构图](https://tva1.sinaimg.cn/large/007S8ZIlgy1gdzfpd07guj31260rgmz7.jpg)
+<img src="https://i.loli.net/2020/04/19/PJa6vTGEHgOWNul.png" alt="架构图"  />
 
 ## 疑难点是如何解决的
 
