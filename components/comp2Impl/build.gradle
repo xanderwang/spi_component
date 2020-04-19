@@ -1,0 +1,31 @@
+apply plugin: 'com.android.library'
+
+android {
+  compileSdkVersion 28
+  buildToolsVersion '28.0.3'
+  defaultConfig {
+    minSdkVersion 15
+    targetSdkVersion 28
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+dependencies {
+  implementation project(path: ':baselibs:compbase')
+  implementation project(path: ':baselibs:comp1')
+  implementation project(path: ':baselibs:comp2')
+  implementation project(path: ':baselibs:core')
+
+  def _dependencies = rootProject.ext.dependencies
+  implementation _dependencies['appcompat']
+  implementation _dependencies['constraintlayout']
+}

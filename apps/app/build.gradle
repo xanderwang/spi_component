@@ -1,0 +1,44 @@
+apply plugin: 'com.android.application'
+
+android {
+  def _android = rootProject.ext.android
+  compileSdkVersion _android['compileSdkVersion']
+  buildToolsVersion _android['buildToolsVersion']
+  defaultConfig {
+    minSdkVersion _android['minSdkVersion']
+    targetSdkVersion _android['targetSdkVersion']
+    applicationId "com.xander.spi"
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+dependencies {
+  implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+  testImplementation 'junit:junit:4.12'
+  androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+  androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+
+  implementation project(path: ':baselibs:net')
+  implementation project(path: ':baselibs:imageloader')
+  implementation project(path: ':baselibs:compbase')
+  implementation project(path: ':baselibs:comp1')
+  implementation project(path: ':baselibs:comp2')
+  implementation project(path: ':baselibs:core')
+  implementation project(path: ':components:comp1Impl')
+  implementation project(path: ':components:comp2Impl')
+
+  def _dependencies = rootProject.ext.dependencies
+  implementation _dependencies['appcompat']
+  implementation _dependencies['constraintlayout']
+  implementation _dependencies['material']
+
+}

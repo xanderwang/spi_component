@@ -1,6 +1,14 @@
-include ':core'
-include ':comp1'
-include ':comp2'
-include ':app'
-include ':single-alone:comp1-alone'
+include ':baselibs:imageloader'
+include ':baselibs:net'
+include ':baselibs:compbase'
+include ':baselibs:comp1'
+include ':baselibs:comp2'
+include ':baselibs:core'
+
+include ':components:comp1Impl'
+include ':components:comp2Impl'
+
+include ':apps:app'
+include ':apps:comp1-alone'
+include ':apps:comp2-alone'
 
