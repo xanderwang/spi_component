@@ -6,9 +6,9 @@ import com.xander.comp.base.ICompService;
 
 /**
  * @ProjectName: spi_component
- * @Package: com.xander.comp.base
- * @ClassName: xLog
- * @Description: log 日志工具
+ * @Package: com.xander.comp.base.server2
+ * @ClassName: IComp2Service
+ * @Description: IComp2Service 的定义，暴露了该组件对外暴露的资源
  * @Author: xander
  * @CreateDate: 2020/4/19 13:59
  * @Version: 1.0

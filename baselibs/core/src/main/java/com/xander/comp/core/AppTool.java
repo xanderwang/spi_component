@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.ServiceLoader;
 
 /**
+ * 这个类主要用来管理各个组件，包括组件的初始化和组件对外暴露的资源。
  * author: Xander
  * date: 2019/4/12
  */
@@ -75,6 +76,7 @@ public class AppTool {
     }
 
     static {
+        // 这里最好通过 ams 或者其他的方式来动态的添加
         compServiceClassList.add(IComp1Service.class);
         compServiceClassList.add(IComp2Service.class);
         init();
@@ -89,6 +91,7 @@ public class AppTool {
         return (SERVICE) compServiceMap.get(serviceClass);
     }
 
+    // 这个方法最好通过 asm 自动生成
     public static IComp1Service comp1Service() {
         ICompService compService = compServiceMap.get(IComp1Service.class);
         if (compService instanceof IComp1Service) {
@@ -97,6 +100,7 @@ public class AppTool {
         return null;
     }
 
+    // 这个方法最好通过 asm 自动生成
     public static IComp2Service comp2Service() {
         ICompService compService = compServiceMap.get(IComp2Service.class);
         if (compService instanceof IComp2Service) {
